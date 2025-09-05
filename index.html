@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleSense - Your Personal Fashion AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --light: #f8fafc;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --radius: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+        }
+
+        .hero {
+            padding: 4rem 0 6rem;
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray-50) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
+            border-radius: 0 0 0 50%;
+            z-index: -1;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--gray-900), var(--gray-600));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        .upload-flow {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .flow-step {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 2rem;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-number {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .step-description {
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+            transform: scale(1.02);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover .upload-icon {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .upload-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .progress-step.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .progress-step.completed {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .progress-step.inactive {
+            background: var(--gray-100);
+            color: var(--gray-500);
+        }
+
+        .rules-section {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .rule-card {
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .rule-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .rule-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .rule-title {
+            font-weight: 600;
+            color: var(--gray-900);
+            flex: 1;
+        }
+
+        .rule-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .help-text {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            cursor: help;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gray-900);
+            color: var(--white);
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 2rem;
+            height: 2rem;
+            border: 2px solid var(--gray-200);
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .toast {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 100;
+            max-width: 400px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--error);
+        }
+
+        .toast.warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        .toast-icon {
+            font-size: 1.25rem;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--success);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--error);
+        }
+
+        .toast.warning .toast-icon {
+            color: var(--warning);
+        }
+
+        .recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .recommendation-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .recommendation-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .recommendation-content {
+            padding: 1rem;
+        }
+
+        .recommendation-title {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-price {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .try-on-btn {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: var(--radius);
+            margin-top: 1rem;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .progress-steps {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+
+        .text-center { text-align: center; }
+        .text-sm { font-size: 0.875rem; }
+        .text-xs { font-size: 0.75rem; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mt-4 { margin-top: 1rem; }
+        .hidden { display: none; }
+        .block { display: block; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .bg-green-100 { background-color: rgba(16, 185, 129, 0.1); }
+        .text-green-800 { color: rgb(6, 95, 70); }
+        .bg-gray-100 { background-color: var(--gray-100); }
+        .text-gray-600 { color: var(--gray-600); }
+        .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+        .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+        .rounded { border-radius: var(--radius); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-sparkles"></i>
+                </div>
+                StyleSense
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#" class="nav-link">How it works</a></li>
+                    <li><a href="#" class="nav-link">Gallery</a></li>
+                    <li><a href="#" class="nav-link">Pricing</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="#" class="btn btn-secondary">Sign in</a>
+                <a href="#" class="btn btn-primary">Get started</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Your Personal Fashion AI</h1>
+                <p class="subtitle">Upload a photo and get instant, personalized style recommendations. Create custom fashion rules and build your perfect wardrobe.</p>
+                <div class="flex gap-4">
+                    <button class="btn btn-primary btn-lg" onclick="startAnalysis()">
+                        <i class="fas fa-camera"></i>
+                        Try it now - it's free
+                    </button>
+                    <button class="btn btn-secondary btn-lg">
+                        <i class="fas fa-play"></i>
+                        Watch demo
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Happy users</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">1M+</span>
+                        <span class="stat-label">Styles analyzed</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">4.9</span>
+                        <span class="stat-label">User rating</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PGNpcmNsZSBjeD0iMjAwIiBjeT0iMTUwIiByPSI4MCIgZmlsbD0iI2U1ZTdlYiIvPjxsaW5lIHgxPSIxNDAiIHkxPSIxNTAiIHgyPSIyNjAiIHkyPSIxNTAiIHN0cm9rZT0iIzljYTNhZiIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjIwMCIgeTE9IjEwMCIgeDI9IjIwMCIgeTI9IjIwMCIgc3Ryb2tlPSIjOWNhM2FmIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=" alt="Fashion AI Illustration" style="width: 100%; border-radius: 16px;">
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <div class="upload-flow">
+            <div class="progress-steps">
+                <div class="progress-step active" id="step1">
+                    <i class="fas fa-upload"></i>
+                    Upload Photo
+                </div>
+                <div class="progress-step inactive" id="step2">
+                    <i class="fas fa-brain"></i>
+                    AI Analysis
+                </div>
+                <div class="progress-step inactive" id="step3">
+                    <i class="fas fa-palette"></i>
+                    Get Recommendations
+                </div>
+            </div>
+
+            <div class="flow-step" id="uploadStep">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div>
+                        <div class="step-title">Upload Your Photo</div>
+                        <div class="step-description">
+                            Take a clear, full-body photo or upload one from your gallery. Our AI works best with good lighting and minimal background.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <div class="upload-text">Drop your photo here or click to browse</div>
+                    <div class="upload-subtext">Supports JPG, PNG up to 10MB</div>
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                    <img id="previewImage" class="preview-image" alt="Preview">
+                </div>
+
+                <div class="flex gap-4 mt-4">
+                    <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-camera"></i>
+                        Take photo
+                    </button>
+                    <div class="tooltip" data-tooltip="We use advanced AI to analyze your style preferences">
+                        <i class="fas fa-info-circle" style="color: var(--gray-400);"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-step hidden" id="analysisStep">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div>
+                        <div class="step-title">AI Analysis in Progress</div>
+                        <div class="step-description">
+                            Our fashion AI is analyzing your photo to understand your style preferences, body type, and color palette.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <div>
+                        <div class="font-semibold">Analyzing your style...</div>
+                        <div class="text-sm text-gray-500">This usually takes 10-15 seconds</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flow-step hidden" id="resultsStep">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div>
+                        <div class="step-title">Your Style Recommendations</div>
+                        <div class="step-description">
+                            Based on your photo analysis, here are personalized recommendations just for you.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendations">
+                    <div class="recommendation-card">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHJlY3QgeD0iNTAiIHk9IjUwIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2U1ZTdlYiIvPjxjaXJjbGUgY3g9IjEyNSIgY3k9IjEwMCIgcj0iMjAiIGZpbGw9IiM2MzY2ZjEiLz48L3N2Zz4=" alt="Outfit 1" class="recommendation-image">
+                        <div class="recommendation-content">
+                            <div class="recommendation-title">Casual Summer Outfit</div>
+                            <div class="recommendation-description">Lightweight linen shirt with tailored shorts</div>
+                            <div class="recommendation-price">$89.99</div>
+                            <button class="btn btn-primary try-on-btn">Try On Virtually</button>
+                        </div>
+                    </div>
+                    <div class="recommendation-card">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHBhdGggZD0iTTUwLDUwIEwyMDAsNTAgTDIwMCwxNTAgTDUwLDE1MCBaIiBmaWxsPSIjZTVlN2ViIi8+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTAwIiByPSIyMCIgZmlsbD0iI2VjNDg5OSIvPjwvc3ZnPg==" alt="Outfit 2" class="recommendation-image">
+                        <div class="recommendation-content">
+                            <div class="recommendation-title">Evening Elegance</div>
+                            <div class="recommendation-description">Flowy maxi dress with subtle patterns</div>
+                            <div class="recommendation-price">$129.99</div>
+                            <button class="btn btn-primary try-on-btn">Try On Virtually</button>
+                        </div>
+                    </div>
+                    <div class="recommendation-card">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHBvbHlnb24gcG9pbnRzPSI1MCw1MCAxNTAsNTAgMTUwLDE1MCA1MCwxNTAiIGZpbGw9IiNlNWU3ZWIiLz48Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjIwIiBmaWxsPSIjZjU5ZTBiIi8+PC9zdmc+" alt="Outfit 3" class="recommendation-image">
+                        <div class="recommendation-content">
+                            <div class="recommendation-title">Business Casual</div>
+                            <div class="recommendation-description">Structured blazer with comfortable trousers</div>
+                            <div class="recommendation-price">$159.99</div>
+                            <button class="btn btn-primary try-on-btn">Try On Virtually</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules-section">
+                <div class="section-header">
+                    <div>
+                        <div class="section-title">Your Fashion Rules</div>
+                        <div class="text-sm text-gray-500">Create custom rules to personalize your recommendations</div>
+                    </div>
+                    <button class="btn btn-primary" id="createRuleBtn">
+                        <i class="fas fa-plus"></i>
+                        Create rule
+                    </button>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="rule-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="rule-title">Always suggest warm colors</div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
+                            <button class="btn btn-secondary text-xs">Edit</button>
+                        </div>
+                    </div>
+                    <div class="rule-description">
+                        Prioritize warm tones like reds, oranges, and yellows in all recommendations based on my skin tone analysis.
+                    </div>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div class="rule-icon">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <div class="rule-title">Avoid tight-fitting clothes</div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Inactive</span>
+                            <button class="btn btn-secondary text-xs">Edit</button>
+                        </div>
+                    </div>
+                    <div class="rule-description">
+                        Focus on loose, comfortable fits and flowing silhouettes for all clothing recommendations.
+                    </div>
+                </div>
+
+                <div class="rule-card hidden" id="newRuleForm">
+                    <div class="rule-header">
+                        <div class="rule-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <div class="rule-title">Create New Rule</div>
+                    </div>
+                    
+                    <form id="ruleForm">
+                        <div class="form-group">
+                            <label class="form-label">Rule Name</label>
+                            <input type="text" class="form-input" placeholder="e.g., Only show sustainable brands" required>
+                            <div class="help-text">Give your rule a descriptive name</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-input form-textarea" placeholder="Describe what this rule should do..." required></textarea>
+                            <div class="help-text">Explain how this rule should affect your recommendations</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-input">
+                                <option>Color preferences</option>
+                                <option>Fit & style</option>
+                                <option>Brand preferences</option>
+                                <option>Occasion-based</option>
+                                <option>Budget constraints</option>
+                            </select>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button type="submit" class="btn btn-primary">Save rule</button>
+                            <button type="button" class="btn btn-secondary" onclick="cancelNewRule()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div>
+            <div class="font-semibold" id="toast-title">Success!</div>
+            <div class="text-sm" id="toast-message">Your photo has been uploaded successfully.</div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let isAnalyzing = false;
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewImage = document.getElementById('previewImage');
+        const toast = document.getElementById('toast');
+        const toastTitle = document.getElementById('toast-title');
+        const toastMessage = document.getElementById('toast-message');
+        const createRuleBtn = document.getElementById('createRuleBtn');
+        const newRuleForm = document.getElementById('newRuleForm');
+        const ruleForm = document.getElementById('ruleForm');
+
+        uploadArea.addEventListener('click', () => {
+            if (!isAnalyzing) {
+                fileInput.click();
+            }
+        });
+
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                    simulateUpload();
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                fileInput.files = e.dataTransfer.files;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                    simulateUpload();
+                }
+                reader.readAsDataURL(e.dataTransfer.files[0]);
+            }
+        });
+
+        function simulateUpload() {
+            showToast('success', 'Photo uploaded successfully!', 'Starting analysis...');
+            
+            setTimeout(() => {
+                startAnalysis();
+            }, 1000);
+        }
+
+        function startAnalysis() {
+            if (isAnalyzing) return;
+            
+            isAnalyzing = true;
+            currentStep = 2;
+            
+            updateProgressSteps();
+            
+            document.getElementById('uploadStep').classList.add('hidden');
+            document.getElementById('analysisStep').classList.remove('hidden');
+            
+            setTimeout(() => {
+                completeAnalysis();
+            }, 3000);
+        }
+
+        function completeAnalysis() {
+            isAnalyzing = false;
+            currentStep = 3;
+            
+            updateProgressSteps();
+            
+            document.getElementById('analysisStep').classList.add('hidden');
+            document.getElementById('resultsStep').classList.remove('hidden');
+            
+            showToast('success', 'Analysis complete!', 'Your personalized recommendations are ready.');
+        }
+
+        function updateProgressSteps() {
+            const steps = document.querySelectorAll('.progress-step');
+            
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed', 'inactive');
+                
+                if (index + 1 < currentStep) {
+                    step.classList.add('completed');
+                } else if (index + 1 === currentStep) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.add('inactive');
+                }
+            });
+        }
+
+        function showToast(type, title, message) {
+            toast.className = 'toast ' + type;
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        createRuleBtn.addEventListener('click', () => {
+            newRuleForm.classList.remove('hidden');
+            createRuleBtn.classList.add('hidden');
+        });
+
+        function cancelNewRule() {
+            newRuleForm.classList.add('hidden');
+            createRuleBtn.classList.remove('hidden');
+            ruleForm.reset();
+        }
+
+        ruleForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('success', 'Rule created!', 'Your fashion rule has been saved successfully.');
+            cancelNewRule();
+        });
+
+        document.querySelectorAll('.try-on-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                showToast('success', 'Virtual Try-On', 'Opening virtual fitting room...');
+            });
+        });
+    </script>
+</body>
+</html>
